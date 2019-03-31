@@ -1,5 +1,6 @@
 package com.security.rest.securitydemo.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.google.common.collect.Lists;
 import com.security.rest.securitydemo.dto.User;
 import com.security.rest.securitydemo.dto.UserQueryCondition;
@@ -19,6 +20,7 @@ public class UserController {
 
 
     @GetMapping
+    @JsonView(User.UserDetailView.class)
     public List<User> query(UserQueryCondition condition,
                             @PageableDefault(page = 1, size = 10, sort = "username,asc") Pageable pageable) {
 
