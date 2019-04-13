@@ -1,4 +1,4 @@
-package com.security.rest.securitydemo;
+package com.security.rest;
 
 import org.junit.Before;
 import org.junit.Test;

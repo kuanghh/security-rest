@@ -1,4 +1,4 @@
-package com.security.rest.securitydemo.dto;
+package com.security.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
 

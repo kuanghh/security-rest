@@ -1,9 +1,9 @@
-package com.security.rest.securitydemo.controller;
+package com.security.rest.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.google.common.collect.Lists;
-import com.security.rest.securitydemo.dto.User;
-import com.security.rest.securitydemo.dto.UserQueryCondition;
+import com.security.rest.dto.User;
+import com.security.rest.dto.UserQueryCondition;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.data.domain.Pageable;
@@ -25,10 +25,6 @@ public class UserController {
                             @PageableDefault(page = 1, size = 10, sort = "username,asc") Pageable pageable) {
 
         System.out.println(ReflectionToStringBuilder.toString(condition, ToStringStyle.MULTI_LINE_STYLE));
-
-        System.out.println(pageable.getPageSize());
-        System.out.println(pageable.getPageNumber());
-        System.out.println(pageable.getSort());
 
         List<User> users = Lists.newArrayList();
         users.add(new User());

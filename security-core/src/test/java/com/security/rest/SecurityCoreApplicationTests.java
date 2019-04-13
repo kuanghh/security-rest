@@ -1,4 +1,4 @@
-package com.security.rest.securitycore;
+package com.security.rest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
