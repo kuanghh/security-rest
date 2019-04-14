@@ -1,14 +1,12 @@
 package com.security.rest.service;
 
-import com.security.rest.config.MyPasswordEncoderChooser;
+import com.security.rest.security.MyPasswordEncoderChooser;
 import com.security.rest.vo.UserDetailVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Slf4j
 public class MyUserDetailsService implements UserDetailsService {

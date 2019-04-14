@@ -1,4 +1,4 @@
-package com.security.rest.config;
+package com.security.rest.security;
 
 import lombok.Data;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

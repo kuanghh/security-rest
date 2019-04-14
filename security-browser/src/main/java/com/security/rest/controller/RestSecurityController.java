@@ -1,6 +1,6 @@
 package com.security.rest.controller;
 
-import com.security.rest.common.properties.PropertiesConfig;
+import com.security.rest.common.properties.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -35,7 +35,7 @@ import java.io.IOException;
 public class RestSecurityController {
 
     @Autowired
-    private PropertiesConfig propertiesConfig;
+    private SecurityProperties securityProperties;
 
     //经过springSecurity的请求都会被存在这里
     //它是怎么做到的,通过request里面session里面取到的，可看源码
@@ -65,7 +65,7 @@ public class RestSecurityController {
             //如果跳转地址以.html结尾(用户的请求以html结尾)
             if(StringUtils.endsWithIgnoreCase(redirectUrl, ".html")){
                 log.info("redirectUrl : " + redirectUrl);
-                strategy.sendRedirect(request, response, propertiesConfig.getBrowser().getLoginPage());
+                strategy.sendRedirect(request, response, securityProperties.getBrowser().getLoginPage());
             }
         }
 
