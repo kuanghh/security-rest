@@ -2,12 +2,10 @@ package com.security.rest.security;
 
 import com.alibaba.fastjson.JSONObject;
 import com.security.rest.common.LoginType;
-import com.security.rest.common.properties.SecurityProperties;
+import com.security.rest.common.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
@@ -39,7 +37,7 @@ public class BrowserDefaultAuthFailureHandler extends SimpleUrlAuthenticationFai
         log.info("登陆失败");
         if(LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())) {
             response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write(JSONObject.toJSONString(exception));
+            response.getWriter().write(JSONObject.toJSONString(exception.getMessage()));
         }else{
             super.onAuthenticationFailure(request, response, exception);
         }

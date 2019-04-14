@@ -2,7 +2,7 @@ package com.security.rest.security;
 
 import com.alibaba.fastjson.JSONObject;
 import com.security.rest.common.LoginType;
-import com.security.rest.common.properties.SecurityProperties;
+import com.security.rest.common.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

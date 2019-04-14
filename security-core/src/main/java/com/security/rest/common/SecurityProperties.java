@@ -1,4 +1,4 @@
-package com.security.rest.common.properties;
+package com.security.rest.common;
 
 import com.security.rest.common.LoginType;
 import lombok.Data;

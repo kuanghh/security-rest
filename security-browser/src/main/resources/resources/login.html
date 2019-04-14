@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 </head>
 <body>
 <h2>标准登录页面</h2>
 <h3>表单登录</h3>
-<form action="/authentication/form" method="post">
+<form id="myform" method="post">
     <table>
         <tr>
             <td>用户名:</td>
@@ -17,7 +20,14 @@
             <td>密码:</td>
             <td><input type="password" name="password"></td>
         </tr>
+        <tr>
+            <td>校验码:</td>
+            <td>
+                <input type="text" name="code">
+                <img id="codeImage" >
+            </td>
 
+        </tr>
         <tr>
             <td colspan="2">
                 <button type="submit">登录</button>
@@ -27,4 +37,33 @@
 </form>
 
 </body>
+
+<script type="application/javascript">
+
+    var uuid;
+
+    function uuid() {
+        var s = [];
+        var hexDigits = "0123456789abcdef";
+        for (var i = 0; i < 36; i++) {
+            s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+        }
+        s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+        s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+        s[8] = s[13] = s[18] = s[23] = "-";
+
+        var uuid = s.join("");
+        return uuid;
+    }
+
+    $(function (){
+        uuid = uuid();
+        var imgUrl = "/rest/verify_code?uuid=" + uuid;
+        $("#codeImage").attr("src", imgUrl);
+
+        var loginUril = "/authentication/form?uuid=" + uuid;
+        $("#myform").attr("action",loginUril);
+    })
+</script>
+
 </html>

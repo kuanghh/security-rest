@@ -1,6 +1,7 @@
 package com.security.rest.config;
 
-import com.security.rest.common.properties.SecurityProperties;
+import com.security.rest.common.SecurityConstant;
+import com.security.rest.common.SecurityProperties;
 import com.security.rest.security.MyPasswordEncoderChooser;
 import com.security.rest.service.MyUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
@@ -42,13 +43,15 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
         log.info("开启 springSecurity");
 //        http.httpBasic()
         http.formLogin()
-                .loginPage("/authentication/require")//指定登陆页面url
-                .loginProcessingUrl("/authentication/form") //此设置登录页面的登陆认证请求url路径
+                .loginPage(SecurityConstant.DEFAULT_UNAUTHENTICATION_URL)//指定登陆页面url
+                .loginProcessingUrl(SecurityConstant.DEFAULT_LOGIN_PROCESSING_URL_FORM) //此设置登录页面的登陆认证请求url路径
                 .successHandler(browserDefaultAuthSuccessHandler) //登陆成功后的处理
                 .failureHandler(browserDefaultAuthFailureHandler) //登陆失败后的处理
                 .and()
                 .authorizeRequests()
-                .antMatchers("/authentication/require", securityProperties.getBrowser().getLoginPage())
+                .antMatchers(SecurityConstant.GET_VALIDATE_CODE_URL
+                        ,SecurityConstant.DEFAULT_UNAUTHENTICATION_URL,
+                        securityProperties.getBrowser().getLoginPage())
                     .permitAll() //登陆页面的请求允许访问
                 .anyRequest() //其他请求
                 .authenticated() //都要经过认证

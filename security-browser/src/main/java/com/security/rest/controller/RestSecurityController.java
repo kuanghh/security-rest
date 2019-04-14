@@ -1,6 +1,6 @@
 package com.security.rest.controller;
 
-import com.security.rest.common.properties.SecurityProperties;
+import com.security.rest.common.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
