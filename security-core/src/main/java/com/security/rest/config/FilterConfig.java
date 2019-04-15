@@ -5,7 +5,7 @@ import com.security.rest.cache.CustomerCache;
 import com.security.rest.common.SecurityProperties;
 import com.security.rest.filter.CheckCodeFilter;
 import com.security.rest.filter.CheckCodeFilterImpl;
-import com.security.rest.filter.VerifyCodeFilter1;
+import com.security.rest.filter.VerifyCodeFilter;
 import com.security.rest.filter.VerifyCodeFilterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -37,7 +37,7 @@ public class FilterConfig implements WebMvcConfigurer {
      */
     @Bean
     @ConditionalOnExpression("${khh.security.code.useDefaultVerify:true}")
-    public FilterRegistrationBean verifyCodeFilterRegistration(VerifyCodeFilter1 verifyCodeFilter) {
+    public FilterRegistrationBean verifyCodeFilterRegistration(VerifyCodeFilter verifyCodeFilter) {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         registrationBean.setFilter(verifyCodeFilter);
         registrationBean.addUrlPatterns(securityProperties.getCode().getGetCodeUrl());

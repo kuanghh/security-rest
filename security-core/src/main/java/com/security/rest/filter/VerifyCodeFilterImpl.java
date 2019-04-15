@@ -27,7 +27,7 @@ import static com.security.rest.common.SecurityConstant.VERIFY_UUID;
  */
 @Data
 @Slf4j
-public class VerifyCodeFilterImpl implements VerifyCodeFilter1 {
+public class VerifyCodeFilterImpl implements VerifyCodeFilter {
 
     private Producer producer;
 
