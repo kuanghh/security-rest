@@ -1,35 +1,47 @@
 package com.security.rest.config;
 
+import com.google.code.kaptcha.Producer;
+import com.security.rest.cache.CustomerCache;
+import com.security.rest.common.SecurityProperties;
 import com.security.rest.filter.CheckCodeFilter;
-import com.security.rest.filter.VerifycodeFilter;
+import com.security.rest.filter.CheckCodeFilterImpl;
+import com.security.rest.filter.VerifyCodeFilter1;
+import com.security.rest.filter.VerifyCodeFilterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import static com.security.rest.common.SecurityConstant.DEFAULT_LOGIN_PROCESSING_URL_FORM;
-import static com.security.rest.common.SecurityConstant.GET_VALIDATE_CODE_URL;
 
 @Configuration
 public class FilterConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private VerifycodeFilter verifycodeFilter;
 
     @Autowired
-    private CheckCodeFilter checkCodeFilter;
+    private Producer producer;
+
+    @Autowired
+    private CustomerCache customerCache;
+
+    @Autowired
+    private SecurityProperties securityProperties;
 
     /**
      * 配置获取验证码的过滤器
      */
     @Bean
-    public FilterRegistrationBean verifycodeFilterRegistration() {
+    @ConditionalOnExpression("${khh.security.code.useDefaultVerify:true}")
+    public FilterRegistrationBean verifyCodeFilterRegistration(VerifyCodeFilter1 verifyCodeFilter) {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        registrationBean.setFilter(verifycodeFilter);
-        registrationBean.addUrlPatterns(GET_VALIDATE_CODE_URL);
-        registrationBean.setName("verifycodeFilter");
+        registrationBean.setFilter(verifyCodeFilter);
+        registrationBean.addUrlPatterns(securityProperties.getCode().getGetCodeUrl());
+        registrationBean.setName("verifyCodeFilter");
         registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
         return registrationBean;
     }
@@ -38,14 +50,34 @@ public class FilterConfig implements WebMvcConfigurer {
      * 配置校验验证码的过滤器
      */
     @Bean
-    public FilterRegistrationBean checkCodeFilterRegistration() {
+    @ConditionalOnExpression("${khh.security.code.useDefaultVerify:true}")
+    public FilterRegistrationBean checkCodeFilterRegistration(CheckCodeFilter checkCodeFilter) {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         registrationBean.setFilter(checkCodeFilter);
-        registrationBean.addUrlPatterns(DEFAULT_LOGIN_PROCESSING_URL_FORM);
+        registrationBean.addUrlPatterns(securityProperties.getCode().getCheckCodeUrl());
         registrationBean.setName("checkCodeFilter");
         registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE + 2);
         return registrationBean;
     }
 
+
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+    @ConditionalOnMissingBean(name = "verifyCodeFilter")
+    public VerifyCodeFilterImpl verifyCodeFilter(){
+        VerifyCodeFilterImpl verifyCodeFilterImpl = new VerifyCodeFilterImpl();
+        verifyCodeFilterImpl.setProducer(producer);
+        verifyCodeFilterImpl.setCustomerCache(customerCache);
+        return verifyCodeFilterImpl;
+    }
+
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+    @ConditionalOnMissingBean(name = "checkCodeFilter")
+    public CheckCodeFilterImpl checkCodeFilter(){
+        CheckCodeFilterImpl checkCodeFilterImpl = new CheckCodeFilterImpl();
+        checkCodeFilterImpl.setCustomerCache(customerCache);
+        return checkCodeFilterImpl;
+    }
 
 }

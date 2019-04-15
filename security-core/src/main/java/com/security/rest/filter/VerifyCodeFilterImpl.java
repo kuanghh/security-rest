@@ -5,36 +5,32 @@ import com.google.code.kaptcha.Producer;
 import com.security.rest.cache.CustomerCache;
 import com.security.rest.common.CacheConstant;
 import com.security.rest.exception.VerifyCodeException;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestUtils;
 
 import javax.imageio.ImageIO;
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import static com.security.rest.common.SecurityConstant.GET_VALIDATE_CODE_URL;
 import static com.security.rest.common.SecurityConstant.SYS_ENCODEING;
 import static com.security.rest.common.SecurityConstant.VERIFY_UUID;
 
 /**
  * 获取登陆验证码的过滤器
  */
-@Component
-@WebFilter(GET_VALIDATE_CODE_URL)
-public class VerifycodeFilter implements Filter {
+@Data
+@Slf4j
+public class VerifyCodeFilterImpl implements VerifyCodeFilter1 {
 
-    @Autowired
     private Producer producer;
 
-    @Autowired
     private CustomerCache customerCache;
 
     public void doFilter(final HttpServletRequest request, final HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
