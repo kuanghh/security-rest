@@ -14,6 +14,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 @Slf4j
 @Configuration
@@ -30,6 +34,12 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthenticationFailureHandler browserDefaultAuthFailureHandler;
+
+    @Autowired
+    private DataSource dataSource;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -48,7 +58,12 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(browserDefaultAuthSuccessHandler) //登陆成功后的处理
                 .failureHandler(browserDefaultAuthFailureHandler) //登陆失败后的处理
                 .and()
-                .authorizeRequests()
+            .rememberMe() //开启"记住我功能"
+                .tokenRepository(tokenRepository())
+                .userDetailsService(userDetailsService)
+                .tokenValiditySeconds(securityProperties.getBrowser().getTokenValiditySeconds()) //记住我的有效时间
+                .and()
+            .authorizeRequests()
                 .antMatchers(SecurityConstant.GET_VALIDATE_CODE_URL
                         ,SecurityConstant.DEFAULT_UNAUTHENTICATION_URL,
                         securityProperties.getBrowser().getLoginPage())
@@ -56,12 +71,22 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest() //其他请求
                 .authenticated() //都要经过认证
                 .and()
-                .csrf().disable(); //暂不使用 springSecurity的csrf功能
+            .csrf()
+                .disable(); //暂不使用 springSecurity的csrf功能
     }
 
 
     @Bean
     public UserDetailsService userDetailsService(){
         return new MyUserDetailsService();
+    }
+
+    @Bean
+    public PersistentTokenRepository tokenRepository(){
+        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+        tokenRepository.setDataSource(dataSource);
+        //开启后即创建表,但第二次启动后，会报错，所以第二次要注释掉
+        tokenRepository.setCreateTableOnStartup(true);
+        return tokenRepository;
     }
 }

@@ -19,6 +19,7 @@ public class SecurityProperties {
     public static class BrowserProperties{
         private String loginPage = "/login.html";
         private LoginType loginType = LoginType.JSON;
+        private Integer tokenValiditySeconds = 3600;
     }
 
     @Data
