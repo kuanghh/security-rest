@@ -54,4 +54,10 @@ public interface SecurityConstant {
      */
     String DEFAULT_SESSION_INVALID_URL = "/session/invalid";
 
+
+    interface FilterName{
+        String IMG_CHECK_CODE_FILTER = "imgCheckCodeFilter";
+        String IMG_VERFIY_CODE_FILTER = "imgVerifyCodeFilter";
+    }
+
 }

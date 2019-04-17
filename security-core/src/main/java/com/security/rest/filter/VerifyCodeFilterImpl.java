@@ -4,12 +4,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.code.kaptcha.Producer;
 import com.security.rest.cache.CustomerCache;
 import com.security.rest.common.CacheConstant;
+import com.security.rest.common.SecurityConstant;
 import com.security.rest.exception.VerifyCodeException;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestUtils;
 
 import javax.imageio.ImageIO;
@@ -25,12 +27,14 @@ import static com.security.rest.common.SecurityConstant.VERIFY_UUID;
 /**
  * 获取登陆验证码的过滤器
  */
-@Data
+@Component(SecurityConstant.FilterName.IMG_VERFIY_CODE_FILTER)
 @Slf4j
 public class VerifyCodeFilterImpl implements VerifyCodeFilter {
 
+    @Autowired
     private Producer producer;
 
+    @Autowired
     private CustomerCache customerCache;
 
     public void doFilter(final HttpServletRequest request, final HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {

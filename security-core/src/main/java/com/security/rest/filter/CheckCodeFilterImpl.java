@@ -3,11 +3,12 @@ package com.security.rest.filter;
 import com.security.rest.cache.CustomerCache;
 import com.security.rest.common.CacheConstant;
 import com.security.rest.common.SecurityConstant;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestUtils;
 
 import javax.servlet.*;
@@ -18,10 +19,12 @@ import java.io.IOException;
 /**
  * 校验验证码过滤器
  */
-@Data
+
+@Component(SecurityConstant.FilterName.IMG_CHECK_CODE_FILTER)
 @Slf4j
 public class CheckCodeFilterImpl implements CheckCodeFilter {
 
+    @Autowired
     private CustomerCache customerCache;
 
     public void doFilter(final HttpServletRequest request, final HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
