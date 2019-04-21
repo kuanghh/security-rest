@@ -1,7 +1,6 @@
 package com.security.rest.config;
 
 import com.security.rest.authentication.mobile.SmsAuthenticationConfig;
-import com.security.rest.authentication.mobile.SmsAuthenticationFilter;
 import com.security.rest.authentication.mobile.SmsCodeCheckFilter;
 import com.security.rest.common.SecurityConstant;
 import com.security.rest.common.SecurityProperties;
@@ -17,7 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -65,7 +64,7 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.apply(smsAuthenticationConfig)
                 .and()
-            .addFilterBefore(smsCodeCheckFilter, UsernamePasswordAuthenticationFilter.class)//将短信验证码过滤器放到前面
+            .addFilterBefore(smsCodeCheckFilter, AbstractPreAuthenticatedProcessingFilter.class)//将短信验证码过滤器放到最前面
             .formLogin()
                 .loginPage(SecurityConstant.DEFAULT_UNAUTHENTICATION_URL)//指定登陆页面url
                 .loginProcessingUrl(SecurityConstant.DEFAULT_LOGIN_PROCESSING_URL_FORM) //此设置登录页面的登陆认证请求url路径
