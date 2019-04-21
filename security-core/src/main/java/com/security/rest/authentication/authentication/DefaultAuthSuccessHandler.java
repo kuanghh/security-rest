@@ -1,4 +1,4 @@
-package com.security.rest.security;
+package com.security.rest.authentication.authentication;
 
 import com.alibaba.fastjson.JSONObject;
 import com.security.rest.common.LoginType;
@@ -19,7 +19,7 @@ import java.io.IOException;
  */
 @Component("browserDefaultAuthSuccessHandler")
 @Slf4j
-public class BrowserDefaultAuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+public class DefaultAuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     /**
      * 这里除了实现 AuthenticationSuccessHandler,还可以继承
      * Spring自带的SavedRequestAwareAuthenticationSuccessHandler，

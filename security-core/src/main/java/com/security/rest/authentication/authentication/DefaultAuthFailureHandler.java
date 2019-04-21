@@ -1,4 +1,4 @@
-package com.security.rest.security;
+package com.security.rest.authentication.authentication;
 
 import com.alibaba.fastjson.JSONObject;
 import com.security.rest.common.LoginType;
@@ -19,7 +19,7 @@ import java.io.IOException;
  */
 @Component("browserDefaultAuthFailureHandler")
 @Slf4j
-public class BrowserDefaultAuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+public class DefaultAuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
     /**
      * 这里除了实现 AuthenticationFailureHandler,还可以继承
      * Spring自带的SimpleUrlAuthenticationFailureHandler，

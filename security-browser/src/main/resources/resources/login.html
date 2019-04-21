@@ -24,7 +24,7 @@
             <td>校验码:</td>
             <td>
                 <input type="text" name="code">
-                <img id="codeImage" >
+                <img id="codeImage" style="width: 150px; height: 28px;">
             </td>
 
         </tr>
@@ -44,6 +44,29 @@
         </tr>
     </table>
 </form>
+
+
+<h3>短信登录</h3>
+<form id="sms_form" method="post">
+    <table>
+        <tr>
+            <td>手机号:</td>
+            <td><input type="text" id="mobile"  name="mobile" value="13012345678"></td>
+        </tr>
+        <tr>
+            <td>短信验证码:</td>
+            <td>
+                <input type="text" name="smsCode">
+                <button type="button" id="sendCode" >发送短信验证码</button>
+                <!--<a href="/sms/get_code?mobile=13012345678">发送验证码</a>-->
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><button type="submit">登录</button></td>
+        </tr>
+    </table>
+</form>
+
 
 </body>
 
@@ -70,8 +93,27 @@
         var imgUrl = "/rest/verify_code?uuid=" + uuid;
         $("#codeImage").attr("src", imgUrl);
 
-        var loginUril = "/authentication/form?uuid=" + uuid;
-        $("#myform").attr("action",loginUril);
+        var loginUrl = "/authentication/form?uuid=" + uuid;
+        $("#myform").attr("action",loginUrl);
+
+        $("#sendCode").click(function () {
+            var mobile = $("#mobile").val();
+            if(mobile === null || mobile === undefined  || mobile === "undefined"){
+                alert("请输入手机号");
+                return;
+            }
+            $.ajax({
+                url: "/sms/get_code?mobile=" + mobile,
+                method: "GET",
+                success: function(databack){
+                    alert("验证码已经发送");
+                    console.log(databack);
+                }
+            });
+        })
+
+        var loginMobileUrl = "/authentication/mobile";
+        $("#sms_form").attr("action",loginMobileUrl);
     })
 </script>
 

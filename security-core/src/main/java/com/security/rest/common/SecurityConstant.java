@@ -21,6 +21,11 @@ public interface SecurityConstant {
      */
     String GET_VALIDATE_CODE_URL= "/rest/verify_code";
     /**
+     * 默认获取短信验证码url
+     */
+    String GET_SMS_CODE_URL = "/sms/get_code";
+
+    /**
      * 当请求需要身份认证时，默认跳转的url
      *
      */
@@ -29,6 +34,7 @@ public interface SecurityConstant {
      * 默认的用户名密码登录请求处理url
      */
     String DEFAULT_LOGIN_PROCESSING_URL_FORM = "/authentication/form";
+
     /**
      * 默认的手机验证码登录请求处理url
      */
