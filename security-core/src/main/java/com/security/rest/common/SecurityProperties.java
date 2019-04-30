@@ -14,6 +14,7 @@ public class SecurityProperties {
     private BrowserProperties browser = new BrowserProperties();
     private VerifyCodeProperties code = new VerifyCodeProperties();
     private SmsCodeProperties sms = new SmsCodeProperties();
+    private QQProperties qq = new QQProperties();
 
     @Data
     public static class BrowserProperties{
@@ -34,5 +35,12 @@ public class SecurityProperties {
         private Integer codeLength = 4; // 短信验证码长度
         private String getSmsCodeUrl = GET_SMS_CODE_URL;
         private String checkCodeUrl = DEFAULT_LOGIN_PROCESSING_URL_MOBILE;
+    }
+
+    @Data
+    public static class QQProperties{
+        private String providerId;
+        private String appId;
+        private String appSecret;
     }
 }
