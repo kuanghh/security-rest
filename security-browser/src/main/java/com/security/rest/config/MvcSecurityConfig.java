@@ -53,7 +53,7 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         log.info("这里进行配置 自定义用户认证的方法，并且配置 密码加密器");
-        auth.userDetailsService(userDetailsService())
+        auth.userDetailsService(userDetailsService)
                 .passwordEncoder(myPasswordEncoderChooser.getPasswordEncoder());
     }
 

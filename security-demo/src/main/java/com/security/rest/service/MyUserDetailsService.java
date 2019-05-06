@@ -40,6 +40,6 @@ public class MyUserDetailsService implements UserDetailsService , SocialUserDeta
     @Override
     public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
         String encodePass = myPasswordEncoderChooser.getPasswordEncoder().encode("123456");
-        return new SocialUser(userId, encodePass,  AuthorityUtils.createAuthorityList("admin"));
+        return new SocialUser(userId, encodePass,  AuthorityUtils.createAuthorityList("admin","ROLE_USER"));
     }
 }
